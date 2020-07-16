@@ -8,4 +8,9 @@ config SRCARCH
 	string
 	option env="SRCARCH"
 
+config VENDOR_XIAOMI
+	bool "XiaoMi support"
+	help
+		This feature enables XiaoMi specific hacks
+
 source "arch/$SRCARCH/Kconfig"
