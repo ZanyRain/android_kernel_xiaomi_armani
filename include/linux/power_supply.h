@@ -4,6 +4,7 @@
  *  Copyright © 2007  Anton Vorontsov <cbou@mail.ru>
  *  Copyright © 2004  Szabolcs Gyurko
  *  Copyright © 2003  Ian Molton <spyro@f2s.com>
+ *  Copyright (C) 2015 XiaoMi, Inc.
  *
  *  Modified: 2004, Oct     Szabolcs Gyurko
  *
@@ -245,6 +246,11 @@ extern int power_supply_register(struct device *parent,
 				 struct power_supply *psy);
 extern void power_supply_unregister(struct power_supply *psy);
 extern int power_supply_powers(struct power_supply *psy, struct device *dev);
+#ifdef CONFIG_VENDOR_XIAOMI
+extern int register_power_supply_notifier(struct notifier_block*);
+extern int unregister_power_supply_notifier(struct notifier_block*);
+#endif /* CONFIG_VENDOR_XIAOMI */
+
 #else
 static inline struct power_supply *power_supply_get_by_name(char *name)
 							{ return NULL; }
@@ -285,6 +291,13 @@ static inline void power_supply_unregister(struct power_supply *psy) { }
 static inline int power_supply_powers(struct power_supply *psy,
 				      struct device *dev)
 							{ return -ENOSYS; }
+#ifdef CONFIG_VENDOR_XIAOMI
+extern int register_power_supply_notifier(struct notifier_block*)
+							{ return -ENOSYS; }
+extern int unregister_power_supply_notifier(struct notifier_block*)
+							{ return -ENOSYS; }
+#endif /* CONFIG_VENDOR_XIAOMI */
+
 #endif
 
 /* For APM emulation, think legacy userspace. */

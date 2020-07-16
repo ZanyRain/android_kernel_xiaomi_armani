@@ -3,6 +3,7 @@
 
 /*
  * Copyright (c) 1999-2002 Vojtech Pavlik
+ * Copyright (C) 2015 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify it
  * under the terms of the GNU General Public License version 2 as published by
@@ -1323,6 +1324,13 @@ struct input_dev {
 
 	struct list_head	h_list;
 	struct list_head	node;
+
+#ifdef CONFIG_VENDOR_XIAOMI
+	bool enabled;
+	int (*enable)(struct input_dev *dev);
+	int (*disable)(struct input_dev *dev);
+#endif /* CONFIG_VENDOR_XIAOMI */
+
 };
 #define to_input_dev(d) container_of(d, struct input_dev, dev)
 

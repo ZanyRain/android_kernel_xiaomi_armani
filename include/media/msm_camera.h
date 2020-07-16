@@ -1721,6 +1721,9 @@ enum msm_actuator_addr_type {
 enum msm_actuator_write_type {
 	MSM_ACTUATOR_WRITE_HW_DAMP,
 	MSM_ACTUATOR_WRITE_DAC,
+#ifdef CONFIG_VENDOR_XIAOMI
+	MSM_ACTUATOR_WRITE_DAC_DW9761,
+#endif /* CONFIG_VENDOR_XIAOMI */
 };
 
 struct msm_actuator_reg_params_t {

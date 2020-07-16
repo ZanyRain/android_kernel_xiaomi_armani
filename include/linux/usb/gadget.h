@@ -529,6 +529,16 @@ struct usb_gadget_ops {
  * driver suspend() calls.  They are valid only when is_otg, and when the
  * device is acting as a B-Peripheral (so is_a_peripheral is false).
  */
+#ifdef CONFIG_VENDOR_XIAOMI
+#define GADGET_STATE_PROCESS(x) (0x0f & (x))
+#define GADGET_STATE_DONE(x)	(0xf0 & (x))
+#define GADGET_STATE_IDLE				0x00
+#define GADGET_STATE_PROCESS_GET		0x01
+#define GADGET_STATE_PROCESS_SET		0x02
+#define GADGET_STATE_DONE_SET			0x12
+#define GADGET_STATE_DONE_RESET			0x14
+#endif /* CONFIG_VENDOR_XIAOMI */
+
 struct usb_gadget {
 	/* readonly to gadget driver */
 	const struct usb_gadget_ops	*ops;
@@ -546,10 +556,15 @@ struct usb_gadget {
 	unsigned			otg_srp_reqd:1;
 	const char			*name;
 	struct device			dev;
-	u8				usb_core_id;
+	u8					usb_core_id;
 	bool				l1_supported;
 	bool				streaming_enabled;
-	u32				xfer_isr_count;
+#ifdef CONFIG_VENDOR_XIAOMI
+	u8				usb_sys_state;
+#else
+	u32 			xfer_isr_count;
+#endif /* CONFIG_VENDOR_XIAOMI */
+
 };
 
 static inline void set_gadget_data(struct usb_gadget *gadget, void *data)
