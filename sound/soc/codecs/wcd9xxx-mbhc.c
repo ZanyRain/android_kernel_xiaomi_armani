@@ -1,4 +1,5 @@
 /* Copyright (c) 2012-2014, The Linux Foundation. All rights reserved.
+ * Copyright (C) 2015 XiaoMi, Inc.
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License version 2 and
@@ -100,8 +101,13 @@
  * Invalid voltage range for the detection
  * of plug type with current source
  */
+#ifdef CONFIG_VENDOR_XIAOMI
+#define WCD9XXX_CS_MEAS_INVALD_RANGE_LOW_MV 110
+#define WCD9XXX_CS_MEAS_INVALD_RANGE_HIGH_MV 150
+#else
 #define WCD9XXX_CS_MEAS_INVALD_RANGE_LOW_MV 160
 #define WCD9XXX_CS_MEAS_INVALD_RANGE_HIGH_MV 265
+#endif /* CONFIG_VENDOR_XIAOMI */
 
 /*
  * Threshold used to detect euro headset
@@ -576,7 +582,9 @@ static void wcd9xxx_jack_report(struct wcd9xxx_mbhc *mbhc,
 						status & SND_JACK_HEADPHONE);
 	}
 
+#ifdef CONFIG_MSM_UART_HS_USE_HS
 	snd_soc_jack_report_no_dapm(jack, status, mask);
+#endif /* CONFIG_MSM_UART_HS_USE_HS */
 }
 
 static void __hphocp_off_report(struct wcd9xxx_mbhc *mbhc, u32 jack_status,
